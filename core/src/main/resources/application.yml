@@ -8,7 +8,8 @@ server:
   port: 8080
 security:
   token:
-    secret-key: 'ababababba'
+    #intentionally public
+    secret-key: 'super-secret key'
     expiration-time: 864000000
     header:
-      name: 'jwt-token'
+      name: 'Jwt-Token'
