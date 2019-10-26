@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Date;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -53,7 +52,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	                                        Authentication auth) {
 		String token = JWT.create()
 				.withSubject(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis() + tokenProvider.expirationTime))
 				.sign(Algorithm.HMAC512(tokenProvider.secret));
 		res.addHeader("Access-Control-Expose-Headers", tokenProvider.tokenHeaderName);
 		res.addHeader(tokenProvider.tokenHeaderName, token);
