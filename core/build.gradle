@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.1.8.RELEASE'
+}
+
+bootRun {
+    systemProperties System.properties
+}
+
+ext {
+    springVersion = '2.1.8.RELEASE'
+}
+
+dependencies {
+    compile "org.jetbrains:annotations:16.0.2"
+
+    compile "org.springframework.boot:spring-boot-starter-web:$springVersion"
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb:$springVersion"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test:$springVersion"
+}
