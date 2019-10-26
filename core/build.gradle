@@ -17,5 +17,10 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:$springVersion"
     implementation "org.springframework.boot:spring-boot-starter-data-mongodb:$springVersion"
 
+    implementation "org.springframework.boot:spring-boot-starter-security:$springVersion"
+    implementation "com.auth0:java-jwt:3.4.0"
+
+    implementation "org.modelmapper:modelmapper:2.3.0"
+
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springVersion"
 }

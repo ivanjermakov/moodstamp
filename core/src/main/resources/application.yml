@@ -6,3 +6,9 @@ spring:
       database: moodstamp
 server:
   port: 8080
+security:
+  token:
+    secret-key: 'ababababba'
+    expiration-time: 864000000
+    header:
+      name: 'jwt-token'
