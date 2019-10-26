@@ -16,12 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
 
-public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class CredentialsFilter extends UsernamePasswordAuthenticationFilter {
 
 	private final AuthenticationManager authenticationManager;
 	private final TokenProvider tokenProvider;
 
-	public AuthenticationFilter(AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
+	public CredentialsFilter(AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
 		this.authenticationManager = authenticationManager;
 		this.tokenProvider = tokenProvider;
 	}
