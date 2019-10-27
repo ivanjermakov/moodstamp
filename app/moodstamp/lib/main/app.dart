@@ -7,16 +7,11 @@ import 'package:moodstamp/view/more/more-view.dart';
 import 'package:moodstamp/view/stats/stats-view.dart';
 
 class App extends StatelessWidget {
-  final List<Widget> views = [
-    MoodView(),
-    StatsView(),
-    CalendarView(),
-    MoreView()
-  ];
+    final List<Widget> views = [MoodView(), StatsView(), CalendarView(), MoreView()];
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+      return MaterialApp(
       home: CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
           items: <BottomNavigationBarItem>[
@@ -34,6 +29,7 @@ class App extends StatelessWidget {
           return views[index];
         },
       ),
+          theme: ThemeData(fontFamily: 'Raleway'),
     );
   }
 }

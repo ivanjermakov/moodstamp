@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:moodstamp/common/clickable.dart';
 import 'package:moodstamp/common/mood-icon.dart';
 import 'package:moodstamp/model/mood.dart';
+import 'package:moodstamp/view/mood/interactive-mood-icon.dart';
 
 class MoodView extends StatefulWidget {
   MoodView();
@@ -17,27 +18,27 @@ class _MoodViewState extends State<MoodView> {
     final List<MoodIcon> moodIcons = [
         MoodIcon(
             FontAwesomeIcons.solidGrin,
-            color: Color(0xFF76ff03),
+            color: Color(0xFF6BEB03),
             mood: Mood.HAPPY,
         ),
         MoodIcon(
             FontAwesomeIcons.solidSmile,
-            color: Color(0xFFc6ff00),
+            color: Color(0xFFB4EB00),
             mood: Mood.GOOD,
         ),
         MoodIcon(
             FontAwesomeIcons.solidMeh,
-            color: Color(0xFFffea00),
+            color: Color(0xFFEBD600),
             mood: Mood.OK,
         ),
         MoodIcon(
             FontAwesomeIcons.solidFrown,
-            color: Color(0xFFffc400),
+            color: Color(0xFFEBB100),
             mood: Mood.BAD,
         ),
         MoodIcon(
             FontAwesomeIcons.solidSadTear,
-            color: Color(0xFFff9100),
+            color: Color(0xFFEB8100),
             mood: Mood.HORRIBLE,
         ),
     ];
@@ -75,9 +76,12 @@ class _MoodViewState extends State<MoodView> {
                     children: <Widget>[
                         Text(
                             "How are you?",
+//            TODO: global default text style (probably with custom Text widget)
                             style: TextStyle(
+                                color: Colors.black,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.none,
                             ),
                             textAlign: TextAlign.center,
                         ),
@@ -94,14 +98,10 @@ class _MoodViewState extends State<MoodView> {
                         Row(
                             children: moodIcons
                                 .map((MoodIcon mi) =>
-                                Clickable(
-                                    child: MoodIcon(
-                                        mi.icon,
-                                        color: mi.color,
-                                        mood: mi.mood,
-                                        isActive: mi.mood == _mood,
-                                    ),
-                                    onPressed: () => setState(() => _mood = mi.mood),
+                                InteractiveMoodIcon(
+                                    mi,
+                                    mi.mood == _mood,
+                                        () => setState(() => mi.mood == _mood ? _mood = null : _mood = mi.mood),
                                 ))
                                 .toList(),
                             mainAxisAlignment: MainAxisAlignment.center,

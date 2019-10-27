@@ -14,8 +14,8 @@ class MoodIcon extends StatelessWidget {
     return Container(
       child: Icon(
         icon,
-        color: isActive ? color : color.withAlpha(100),
-        size: 48,
+          color: isActive ? color : color.withAlpha(80),
+          size: 60,
       ),
       padding: EdgeInsets.all(4),
     );

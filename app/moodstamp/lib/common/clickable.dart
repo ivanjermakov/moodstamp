@@ -14,6 +14,7 @@ class Clickable extends StatelessWidget {
       onPressed: onPressed,
       color: Colors.transparent,
       padding: EdgeInsets.all(0),
+        pressedOpacity: 1,
     );
   }
 }
