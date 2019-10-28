@@ -4,8 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:moodstamp/common/clickable.dart';
 import 'package:moodstamp/common/mood-icon.dart';
+import 'package:moodstamp/model/mood-record.dart';
 import 'package:moodstamp/model/mood.dart';
 import 'package:moodstamp/view/mood/interactive-mood-icon.dart';
+import 'package:moodstamp/view/mood/mood-description.dart';
 
 class MoodView extends StatefulWidget {
   MoodView();
@@ -43,8 +45,7 @@ class _MoodViewState extends State<MoodView> {
         ),
     ];
 
-    DateTime _dateTime = DateTime.now();
-    Mood _mood;
+    MoodRecord moodRecord = MoodRecord.empty;
 
     void _pickDate() {
         showCupertinoModalPopup(
@@ -55,7 +56,7 @@ class _MoodViewState extends State<MoodView> {
                         mode: CupertinoDatePickerMode.dateAndTime,
                         use24hFormat: true,
                         initialDateTime: DateTime.now(),
-                        onDateTimeChanged: (DateTime dt) => setState(() => _dateTime = dt),
+                        onDateTimeChanged: (DateTime dt) => setState(() => moodRecord = moodRecord.withDateTime(dt)),
                     ),
                     height: MediaQuery
                         .of(context)
@@ -66,7 +67,10 @@ class _MoodViewState extends State<MoodView> {
         );
     }
 
-    void _pickMood() {}
+    void _pickMood(Mood mood) {
+        setState(() => moodRecord = moodRecord.withMood(mood));
+        Navigator.of(context).push(MoodDescriptionRoute(moodRecord));
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -76,10 +80,10 @@ class _MoodViewState extends State<MoodView> {
                     children: <Widget>[
                         Text(
                             "How are you?",
-//            TODO: global default text style (probably with custom Text widget)
+                            // TODO: global default text style (probably with custom Text widget)
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 24,
+                                fontSize: 22,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.none,
                             ),
@@ -87,7 +91,7 @@ class _MoodViewState extends State<MoodView> {
                         ),
                         Clickable(
                             child: Text(
-                                "${DateFormat('yMMMMd').add_Hm().format(_dateTime)}",
+                                "${DateFormat('yMMMMd').add_Hm().format(moodRecord.dateTime)}",
                                 style: TextStyle(
                                     color: Colors.black,
                                     decoration: TextDecoration.underline,
@@ -100,8 +104,8 @@ class _MoodViewState extends State<MoodView> {
                                 .map((MoodIcon mi) =>
                                 InteractiveMoodIcon(
                                     mi,
-                                    mi.mood == _mood,
-                                        () => setState(() => mi.mood == _mood ? _mood = null : _mood = mi.mood),
+                                    mi.mood == moodRecord.mood,
+                                        () => _pickMood(mi.mood),
                                 ))
                                 .toList(),
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -112,6 +116,7 @@ class _MoodViewState extends State<MoodView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                 ),
             ),
+            backgroundColor: Colors.white,
         );
     }
 }
