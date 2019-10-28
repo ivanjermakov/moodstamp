@@ -3,15 +3,35 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:moodstamp/common/clickable.dart';
 import 'package:moodstamp/model/mood-record.dart';
+import 'package:moodstamp/service/navigation-service.dart';
 
 class MoodDescriptionRoute extends CupertinoPageRoute {
   MoodDescriptionRoute(MoodRecord moodRecord) : super(builder: (BuildContext context) => ModelDescription(moodRecord));
 }
 
-class ModelDescription extends StatelessWidget {
-  final MoodRecord moodRecord;
+class ModelDescription extends StatefulWidget {
+    final MoodRecord _moodRecord;
 
-  ModelDescription(this.moodRecord);
+    ModelDescription(this._moodRecord);
+
+    @override
+    _ModelDescriptionState createState() => _ModelDescriptionState(_moodRecord);
+}
+
+class _ModelDescriptionState extends State<ModelDescription> {
+    MoodRecord _moodRecord;
+
+    _ModelDescriptionState(this._moodRecord);
+
+    void _pickDescription(String description) {
+        setState(() => _moodRecord = _moodRecord.withDescription(description));
+    }
+
+    void save() {
+        print('saved: $_moodRecord');
+        Navigator.of(context).pop();
+        NavigationService.changeActiveTab(1);
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +47,19 @@ class ModelDescription extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          onPressed: () => print('save!'),
+            onPressed: save,
         ),
       ),
       child: Center(
         child: Column(
           children: <Widget>[
             Text(
-              "What made you feel ${describeEnum(moodRecord.mood).toLowerCase()}?",
+                "What made you feel ${describeEnum(_moodRecord.mood).toLowerCase()}?",
               // TODO: global default text style (probably with custom Text widget)
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 22,
-                fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w500,
                 decoration: TextDecoration.none,
               ),
               textAlign: TextAlign.center,
@@ -56,7 +76,7 @@ class ModelDescription extends StatelessWidget {
                   ),
                 ),
                 cursorColor: Colors.black,
-                onChanged: (String text) => print('change! $text'),
+                  onChanged: (String description) => _pickDescription(description),
               ),
               margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             ),

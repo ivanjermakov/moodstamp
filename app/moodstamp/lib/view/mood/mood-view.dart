@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,10 +12,10 @@ import 'package:moodstamp/view/mood/interactive-mood-icon.dart';
 import 'package:moodstamp/view/mood/mood-description.dart';
 
 class MoodView extends StatefulWidget {
-  MoodView();
+    MoodView();
 
-  @override
-  _MoodViewState createState() => _MoodViewState();
+    @override
+    _MoodViewState createState() => _MoodViewState();
 }
 
 class _MoodViewState extends State<MoodView> {
@@ -45,9 +47,11 @@ class _MoodViewState extends State<MoodView> {
         ),
     ];
 
-    MoodRecord moodRecord = MoodRecord.empty;
+    MoodRecord moodRecord;
+    Timer realtimeClockTimer;
 
     void _pickDate() {
+        realtimeClockTimer.cancel();
         showCupertinoModalPopup(
             context: context,
             builder: (BuildContext buildContext) =>
@@ -73,6 +77,17 @@ class _MoodViewState extends State<MoodView> {
     }
 
     @override
+    void initState() {
+        super.initState();
+
+        moodRecord = MoodRecord.empty;
+        realtimeClockTimer = Timer.periodic(
+            Duration(seconds: 1),
+                (Timer timer) => setState(() => moodRecord = moodRecord.withDateTime(DateTime.now())),
+        );
+    }
+
+    @override
     Widget build(BuildContext context) {
         return CupertinoPageScaffold(
             child: Center(
@@ -84,7 +99,7 @@ class _MoodViewState extends State<MoodView> {
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 decoration: TextDecoration.none,
                             ),
                             textAlign: TextAlign.center,
@@ -93,9 +108,10 @@ class _MoodViewState extends State<MoodView> {
                             child: Text(
                                 "${DateFormat('yMMMMd').add_Hm().format(moodRecord.dateTime)}",
                                 style: TextStyle(
+                                    fontSize: 17,
                                     color: Colors.black,
                                     decoration: TextDecoration.underline,
-                                ),
+                                    fontWeight: FontWeight.w300),
                             ),
                             onPressed: _pickDate,
                         ),
@@ -118,5 +134,11 @@ class _MoodViewState extends State<MoodView> {
             ),
             backgroundColor: Colors.white,
         );
+    }
+
+    @override
+    void dispose() {
+        realtimeClockTimer.cancel();
+        super.dispose();
     }
 }

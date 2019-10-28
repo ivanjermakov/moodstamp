@@ -20,4 +20,9 @@ class MoodRecord {
   MoodRecord withDescription(String description) {
     return MoodRecord(mood, dateTime, description);
   }
+
+  @override
+  String toString() {
+      return 'MoodRecord{mood: $mood, dateTime: $dateTime, description: $description}';
+  }
 }

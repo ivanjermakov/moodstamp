@@ -26,9 +26,10 @@ class InteractiveMoodIcon extends StatelessWidget {
         Text(
           isActive ? describeEnum(moodIcon.mood).toLowerCase() : '',
           style: TextStyle(
-            fontSize: 10,
+              fontSize: 17,
             color: moodIcon.color,
             decoration: TextDecoration.none,
+              fontWeight: FontWeight.w300,
           ),
         ),
       ],
