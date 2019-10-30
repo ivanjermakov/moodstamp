@@ -22,30 +22,33 @@ class _AppState extends State<App> {
         setState(() => _currentIndex = index);
     }
 
-  @override
-  Widget build(BuildContext context) {
-      return MaterialApp(
-      home: CupertinoTabScaffold(
-        tabBar: CupertinoTabBar(
-            key: Keys.tabBarKey,
-            onTap: (int index) => setActiveTab(index),
-            currentIndex: _currentIndex,
-            items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.smile)),
-                BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.chartBar)),
-                BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.calendar)),
-                BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.ellipsisH)),
-            ],
-            backgroundColor: Colors.transparent,
-            border: Border(),
-            activeColor: Colors.black,
-            inactiveColor: Color(0xFFBDBDBD),
-        ),
-        tabBuilder: (BuildContext context, int index) {
-          return views[index];
-        },
-      ),
-          theme: ThemeData(fontFamily: 'Raleway'),
-    );
-  }
+    @override
+    Widget build(BuildContext context) {
+        return MaterialApp(
+            home: CupertinoTabScaffold(
+                tabBar: CupertinoTabBar(
+                    key: Keys.tabBarKey,
+                    onTap: (int index) => setActiveTab(index),
+                    currentIndex: _currentIndex,
+                    items: <BottomNavigationBarItem>[
+                        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.smile)),
+                        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.chartBar)),
+                        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.calendar)),
+                        BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.ellipsisH)),
+                    ],
+                    backgroundColor: Colors.transparent,
+                    border: Border(),
+                    activeColor: Colors.black,
+                    inactiveColor: Color(0xFFBDBDBD),
+                ),
+                tabBuilder: (BuildContext context, int index) {
+                    _resetMoodView(views[0] as MoodView);
+                    return views[index];
+                },
+            ),
+            theme: ThemeData(fontFamily: 'Raleway'),
+        );
+    }
+
+    void _resetMoodView(MoodView view) {}
 }

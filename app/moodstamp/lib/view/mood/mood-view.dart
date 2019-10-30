@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:moodstamp/common/clickable.dart';
 import 'package:moodstamp/common/mood-icon.dart';
 import 'package:moodstamp/model/mood-record.dart';
 import 'package:moodstamp/model/mood.dart';
@@ -71,9 +70,18 @@ class _MoodViewState extends State<MoodView> {
         );
     }
 
-    void _pickMood(Mood mood) {
+    Future _pickMood(Mood mood) async {
         setState(() => moodRecord = moodRecord.withMood(mood));
-        Navigator.of(context).push(MoodDescriptionRoute(moodRecord));
+
+        final description = await Navigator.of(context).push(
+            CupertinoPageRoute(
+                builder: (context) => ModelDescription(moodRecord),
+            ),
+        );
+
+        print('description! $description');
+
+        setState(() => moodRecord = moodRecord.withDescription(description));
     }
 
     @override
@@ -104,7 +112,7 @@ class _MoodViewState extends State<MoodView> {
                             ),
                             textAlign: TextAlign.center,
                         ),
-                        Clickable(
+                        GestureDetector(
                             child: Text(
                                 "${DateFormat('yMMMMd').add_Hm().format(moodRecord.dateTime)}",
                                 style: TextStyle(
@@ -113,7 +121,7 @@ class _MoodViewState extends State<MoodView> {
                                     decoration: TextDecoration.underline,
                                     fontWeight: FontWeight.w300),
                             ),
-                            onPressed: _pickDate,
+                            onTap: _pickDate,
                         ),
                         Row(
                             children: moodIcons
